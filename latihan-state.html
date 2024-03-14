@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>State React</title>
+  <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+<body>
+ 
+<div id="app"></div>
+
+<script type="text/babel">
+const { Component } = React;
+
+class PomBensinComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      jenisBensin: 'premium',
+      liter: 0,
+      totalPrice: 0
+    };
+  }
+
+  updateName(newName) {
+    this.setState({ jenisBensin: newName });
+  }
+
+  updateLiter(newLiter) {
+    let totalPrice = 0;
+    const { jenisBensin } = this.state;
+
+    if (jenisBensin === 'premium') {
+      totalPrice = newLiter * 10000;
+    } else if (jenisBensin === 'pertalite') {
+      totalPrice = newLiter * 12000;
+    } else if (jenisBensin === 'pertamax') {
+      totalPrice = newLiter * 15000;
+    }
+
+    this.setState({ liter: newLiter, totalPrice });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1> HARGA POM BENSIN</h1>
+        <div>
+          <label>Jenis-jenis Bensin:</label>
+          <select
+            value={this.state.jenisBensin}
+            onChange={(e) => this.updateName(e.target.value)}
+          >
+            <option value="premium">Premium</option>
+            <option value="pertalite">Pertalite</option>
+            <option value="pertamax">Pertamax</option>
+          </select>
+        </div>
+        <div>
+          <label>Jumlah Liter:</label>
+          <input
+            type="number"
+            value={this.state.liter}
+            onChange={(e) => this.updateLiter(parseInt(e.target.value))}
+          />
+        </div>
+        <div>
+          <label>Total Harga:</label>
+          <span>{this.state.totalPrice}</span>
+        </div>
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(<PomBensinComponent />, document.getElementById("app"));
+</script>
+</body>
+</html>
